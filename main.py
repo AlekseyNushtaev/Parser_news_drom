@@ -13,7 +13,10 @@ def main():
         now = datetime.datetime.now()
         if str(now.hour) == '7':
             time.sleep(3600)
-        result = parser()
+        try:
+            result = parser()
+        except:
+            result = []
         lst_url_old = get_post_urls()
         for post_old in result:
             try:

@@ -90,14 +90,21 @@ def parser() -> list:
         time_public = parse_russian_date(time_public_)
         imgs = []
         imgs_ = soup.find(attrs={"id": "news_one_content"}).find_all(attrs={"data-drom-gallery": "pubimages"})
+        for i in imgs_:
+            imgs.append(i.get("href"))
+        if not imgs:
+            try:
+                img = soup.find(attrs={"class": "b-image b-image_responsive"}).get('src')
+                imgs.append(img)
+            except:
+                pass
+        imgs = ', '.join(imgs)
         try:
             tag = soup.find(attrs={"class": "b-fieldset__title"}).find(attrs={"class": "b-link"}).text.strip()
         except:
             tag = ''
-        for i in imgs_:
-            imgs.append(i.get("href"))
-        imgs = ', '.join(imgs)
         time_stamp = datetime.datetime.now()
-        res.append([news_link, title, text, imgs, time_public, time_stamp, tag])
+        if imgs:
+            res.append([news_link, title, text, imgs, time_public, time_stamp, tag])
     browser.quit()
     return res
