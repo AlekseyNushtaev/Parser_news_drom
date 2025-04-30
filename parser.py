@@ -74,7 +74,7 @@ def parser() -> list:
     html = browser.page_source
     soup = bs4.BeautifulSoup(html, 'lxml')
     cards = soup.find_all(attrs={"data-ga-stats-name": "news-list-item"})
-    for card in cards[:2]:
+    for card in cards:
         news_link = card.get("href")
         browser.get(news_link)
         time.sleep(2)
