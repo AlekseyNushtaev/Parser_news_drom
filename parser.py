@@ -4,9 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver import Chrome
-import requests
 import bs4
-import fake_headers
 import time
 
 
@@ -53,7 +51,8 @@ def parser() -> list:
     chrome_driver_path = ChromeDriverManager().install()
     browser_service = Service(executable_path=chrome_driver_path)
     options = Options()
-    options.add_argument("--start-maximized")
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
     options.page_load_strategy = 'eager'
     options.add_argument('--disable-blink-features=AutomationControlled')
     options.add_argument('--blink-settings=imagesEnabled=false')
@@ -74,7 +73,7 @@ def parser() -> list:
     html = browser.page_source
     soup = bs4.BeautifulSoup(html, 'lxml')
     cards = soup.find_all(attrs={"data-ga-stats-name": "news-list-item"})
-    for card in cards[:2]:
+    for card in cards:
         news_link = card.get("href")
         browser.get(news_link)
         time.sleep(2)
