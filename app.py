@@ -29,7 +29,7 @@ class PostResponse(BaseModel):
     site: str
     title: Optional[str]
     text: Optional[str]
-    tags: List[TagSchema]  # Измененное поле
+    tags: List[str]  # Измененное поле
     time_public: Optional[datetime]
     time_stamp: Optional[datetime]
     photos: List[PhotoSchema]
@@ -114,7 +114,7 @@ def get_posts_by_site(
         tags = []
         if post.tag:
             tags = [
-                {"tag": tag.strip()}
+                tag.strip()
                 for tag in post.tag.split(', ')
                 if tag.strip()
             ]
