@@ -1,4 +1,5 @@
 import datetime
+from pprint import pprint
 
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
@@ -59,19 +60,20 @@ def parser() -> list:
     browser = Chrome(service=browser_service, options=options)
     browser.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
         'source': '''
-            delete window.cdc_adoQpoasnfa76pfcZLmcfl_Array;
-            delete window.cdc_adoQpoasnfa76pfcZLmcfl_Promise;
-            delete window.cdc_adoQpoasnfa76pfcZLmcfl_Symbol;
-            delete window.cdc_adoQpoasnfa76pfcZLmcfl_JSON;
-            delete window.cdc_adoQpoasnfa76pfcZLmcfl_Object;
-            delete window.cdc_adoQpoasnfa76pfcZLmcfl_Proxy;
-        '''
+                delete window.cdc_adoQpoasnfa76pfcZLmcfl_Array;
+                delete window.cdc_adoQpoasnfa76pfcZLmcfl_Promise;
+                delete window.cdc_adoQpoasnfa76pfcZLmcfl_Symbol;
+                delete window.cdc_adoQpoasnfa76pfcZLmcfl_JSON;
+                delete window.cdc_adoQpoasnfa76pfcZLmcfl_Object;
+                delete window.cdc_adoQpoasnfa76pfcZLmcfl_Proxy;
+            '''
     })
     browser.get('https://news.drom.ru/')
     time.sleep(2)
     time.sleep(0.25)
     html = browser.page_source
     soup = bs4.BeautifulSoup(html, 'lxml')
+    pprint(soup.prettify())
     cards = soup.find_all(attrs={"data-ga-stats-name": "news-list-item"})
     for card in cards:
         news_link = card.get("href")

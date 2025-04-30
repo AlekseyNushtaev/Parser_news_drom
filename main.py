@@ -11,12 +11,14 @@ def main():
     create_tables()
     while True:
         now = datetime.datetime.now()
+        print(1)
         if str(now.hour) == '7':
             time.sleep(3600)
         try:
             result = parser()
         except:
             result = []
+            print(len(result))
         lst_url_old = get_post_urls()
         for post_old in result:
             try:
