@@ -69,7 +69,7 @@ def get_unique_sites(db: Session = Depends(get_db)):
     sites = db.execute(select(distinct(Post.site))).scalars().all()
 
     # Format response according to specification
-    formatted_sites = [{"url": site} for site in sites if site is not None]
+    formatted_sites = [{"url": f'http://95.183.8.237/api/v1/news/{site}'} for site in sites if site is not None]
 
     return {"urls": formatted_sites}
 
