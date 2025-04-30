@@ -16,9 +16,10 @@ def main():
             time.sleep(3600)
         try:
             result = parser()
-        except:
+        except Exception as e:
+            print(e)
             result = []
-            print(len(result))
+        print(len(result))
         lst_url_old = get_post_urls()
         for post_old in result:
             try:
