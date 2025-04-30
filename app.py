@@ -19,13 +19,17 @@ class PhotoSchema(BaseModel):
     photo_url: str
 
 
+class TagSchema(BaseModel):
+    tag: str
+
+
 class PostResponse(BaseModel):
     id: int
     url: str
     site: str
     title: Optional[str]
     text: Optional[str]
-    tag: Optional[str]
+    tags: List[TagSchema]  # Измененное поле
     time_public: Optional[datetime]
     time_stamp: Optional[datetime]
     photos: List[PhotoSchema]
@@ -107,14 +111,21 @@ def get_posts_by_site(
                 for img in post.imgs.split(', ')
                 if img.strip()
             ]
+        tags = []
+        if post.tag:
+            tags = [
+                {"tag": tag.strip()}
+                for tag in post.tag.split(', ')
+                if tag.strip()
+            ]
 
         post_data = {
             "id": post.post_id,
-            "url": post.url,  # Добавлено поле url
+            "url": post.url,
             "site": post.site,
             "title": post.title,
             "text": post.text,
-            "tag": post.tag,
+            "tags": tags,  # Измененное поле
             "time_public": post.time_public,
             "time_stamp": post.time_stamp,
             "photos": photos
