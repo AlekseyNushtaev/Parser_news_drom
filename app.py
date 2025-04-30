@@ -15,14 +15,6 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-class PhotoSchema(BaseModel):
-    photo_url: str
-
-
-class TagSchema(BaseModel):
-    tag: str
-
-
 class PostResponse(BaseModel):
     id: int
     url: str
@@ -32,7 +24,7 @@ class PostResponse(BaseModel):
     tags: List[str]  # Измененное поле
     time_public: Optional[datetime]
     time_stamp: Optional[datetime]
-    photos: List[PhotoSchema]
+    photos: List[str]
 
 
 class Base(DeclarativeBase):
@@ -107,7 +99,7 @@ def get_posts_by_site(
         photos = []
         if post.imgs:
             photos = [
-                {"photo_url": img.strip()}
+                img.strip()
                 for img in post.imgs.split(', ')
                 if img.strip()
             ]
