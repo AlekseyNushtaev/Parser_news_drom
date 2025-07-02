@@ -100,7 +100,7 @@ def parser() -> list:
                 pass
         imgs = ', '.join(imgs)
         try:
-            tag = soup.find(attrs={"class": "b-fieldset__title"}).find(attrs={"class": "b-link"}).text.strip()
+            tag = soup.find(attrs={"class": "b-fieldset__title"}).find(attrs={"class": "b-link"}).text.replace('Всё о', '').strip()
         except:
             tag = ''
         time_stamp = datetime.datetime.now()

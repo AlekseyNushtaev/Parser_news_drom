@@ -60,6 +60,7 @@ def get_unique_sites(db: Session = Depends(get_db)):
     # Get distinct sites from database
     sites = db.execute(select(distinct(Post.site))).scalars().all()
 
+
     # Format response according to specification
     formatted_sites = [{"url": f'http://95.183.8.237/api/v1/news/{site}'} for site in sites if site is not None]
 
@@ -106,7 +107,7 @@ def get_posts_by_site(
         tags = []
         if post.tag:
             tags = [
-                tag.strip()
+                tag.replace('Всё о', '').strip()
                 for tag in post.tag.split(', ')
                 if tag.strip()
             ]
