@@ -3,11 +3,10 @@ creds.json
 __pycache__/
 *.py[cod]
 *$py.class
-
 #
 autoposts.db
 korea.json
-db/database.db
+parser/db/database.db
 
 # C extensions
 *.so

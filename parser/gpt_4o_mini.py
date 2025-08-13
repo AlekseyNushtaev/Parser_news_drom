@@ -32,6 +32,8 @@ def prompt_title():
 
 
 client = OpenAI(api_key=PROXY_API, base_url="https://api.proxyapi.ru/openai/v1")
+
+
 def edit_text_ai(text):
     messages = [{"role": "system", "content": prompt()}] + [{"role": "user", "content": text}]
     response = client.chat.completions.create(

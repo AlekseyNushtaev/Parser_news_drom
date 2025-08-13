@@ -4,7 +4,7 @@ import atexit
 import datetime
 
 
-con_string = 'sqlite:///db/database.db'
+con_string = 'sqlite:///parser/db/database.db'
 
 engine = create_engine(con_string)
 Session = sessionmaker(bind=engine, expire_on_commit=False)
@@ -18,6 +18,7 @@ class Base(DeclarativeBase):
 
 class Post(Base):
     __tablename__ = 'post'
+
     post_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     url: Mapped[str] = mapped_column(nullable=True)
     title: Mapped[str] = mapped_column(nullable=True)

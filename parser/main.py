@@ -1,19 +1,17 @@
 import datetime
 import time
 import re
-import openpyxl
 
 from db.models import create_tables
-from db.util import get_post_urls, add_post_to_db
+from db_utils import get_post_urls, add_post_to_db
 from gpt_4o_mini import edit_text_ai, edit_title_ai
-from parser import parser
+from parser_process import parser
 
 
 def main():
     create_tables()
     while True:
         now = datetime.datetime.now()
-        print(1)
         if str(now.hour) == '7':
             time.sleep(3600)
         try:
@@ -23,7 +21,7 @@ def main():
             result = []
         print(len(result))
         lst_url_old = get_post_urls()
-        for post_old in result[:4]:
+        for post_old in result:
             try:
                 url = post_old[0]
                 if url in lst_url_old:
@@ -34,7 +32,7 @@ def main():
                 time_public = post_old[4]
                 time_stamp = post_old[5]
                 tag = post_old[6]
-                for y in range(2):
+                for y in range(3):
                     for i in range(3):
                         posts = edit_text_ai(post_old[2]).split('<///>')
                         if len(posts) > 5:
