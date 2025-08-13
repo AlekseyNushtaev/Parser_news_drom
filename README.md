@@ -62,14 +62,16 @@ PROXY_API=ваш_api_ключ_от_proxyapi.ru
 /etc/systemd/system/news_parser.service:
 ```commandline
 [Unit]
-Description=News Parser Daemon
+Description=news_parser
+After=syslog.target
 After=network.target
 
 [Service]
+Type=simple
 User=ваш_пользователь
-WorkingDirectory=/путь/к/проекту
-Environment="PATH=/путь/к/проекту/venv/bin"
-ExecStart=/путь/к/проекту/venv/bin/python parser/main.py
+WorkingDirectory=ваш путь к проекту
+ExecStart=/ваш путь к проекту/venv/bin/python3 /ваш путь к проекту/parser/main.py
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
@@ -78,15 +80,14 @@ WantedBy=multi-user.target
 /etc/systemd/system/news_api.service:
 ```commandline
 [Unit]
-Description=News Aggregator API
+Description=news_api
 After=network.target
 
 [Service]
 User=ваш_пользователь
-Group=www-data
-WorkingDirectory=/путь/к/проекту
-Environment="PATH=/путь/к/проекту/venv/bin"
-ExecStart=/путь/к/проекту/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+WorkingDirectory=/ваш путь к проекту
+Environment="PATH=/ваш путь к проекту/venv/bin"
+ExecStart=/ваш путь к проекту/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 [Install]
 WantedBy=multi-user.target
@@ -104,13 +105,14 @@ sudo systemctl enable news_parser
 sudo apt install nginx
 ```
 ### 8. Создайте конфигурационный файл Nginx
+/etc/nginx/sites-available/news_api
 ```commandline
 server {
     listen 80;
     server_name ваш_домен_или_ip;
 
     location / {
-        proxy_pass http://127.0.0.1:8000;
+        proxy_pass http://localhost:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
