@@ -68,9 +68,9 @@ def main() -> None:
                 tag: str = post_old[6]  # Тег новости
 
                 # Количество генераций от GPT
-                quantity = 3
+                quantity = 7
 
-                for y in range(quantity):
+                for y in range(quantity + 1):
                     # Генерация вариантов статей через GPT, 3 попытки для получения требуемого кол-ва постов
                     posts: List[str] = []
                     for i in range(3):
@@ -83,7 +83,7 @@ def main() -> None:
 
                     # Выход если не удалось сгенерировать достаточно статей
                     if len(posts) < 6:
-                        break
+                        continue
 
                     # Обработка каждой сгенерированной статьи
                     for post_ in posts:
